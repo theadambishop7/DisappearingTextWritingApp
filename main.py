@@ -44,8 +44,17 @@ def kill_count_down(count):
     segment_timer_label.config(fg="red")
     current_segment_timer = window.after(1000, kill_count_down, int(count) - 1)  # Schedule the next call
 
+
 def count_down(count):
     global current_timer
+    if count == 0:
+        if current_segment_timer is not None:  # Add this check
+            window.after_cancel(current_segment_timer)
+        master_timer.config(text="00", fg="green")
+        segment_timer.config(text="00", fg="black")
+        segment_timer_label.config(fg="black")
+        success_label.grid()
+        return
     count_min = math.floor(count / 60)
     count_sec = count % 60
     if count_sec < 10:
@@ -61,6 +70,8 @@ def start_timer():
         window.after_cancel(current_timer)
     key_released("event")
     current_timer = MASTER_TIMER_LENGTH
+    master_timer.config(text="00", fg="black")
+    success_label.grid_remove()
     typing_window.config(state=NORMAL, fg="black")
     typing_window.delete("1.0", END)
     count_down(MASTER_TIMER_LENGTH)
@@ -86,6 +97,10 @@ typing_window.grid(row=2, column=1, columnspan=3)
 
 start_button = Button(text="Start", command=start_timer)
 start_button.grid(row=4, column=1, columnspan=3)
+
+success_label = Label(text="You Did it!", fg="green", font=BIG_FONT)
+success_label.grid(row=5, column=2)
+success_label.grid_remove()
 
 segment_timer_label = Label(text="Delete Timer", font=SMALL_FONT)
 segment_timer_label.grid(row=5, column=1, columnspan=1)
