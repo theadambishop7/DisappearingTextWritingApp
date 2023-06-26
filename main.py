@@ -1,5 +1,5 @@
 from tkinter import *
-import time
+from random import choice
 import math
 
 MASTER_TIMER_LENGTH = 300
@@ -10,6 +10,34 @@ SMALL_FONT = ("Arial", 14, "normal")
 
 current_timer = None
 current_segment_timer = None
+
+writing_prompts = [
+    "A childhood memory you cherish",
+    "The day you realized that your life was about to change forever",
+    "A day in the life of your pet",
+    "A time travel story set in the 19th century",
+    "A detective solving a case in a world where everyone has a superpower",
+    "The first human mission to Mars",
+    "Life from the perspective of a tree",
+    "An unlikely friendship between two characters from different backgrounds",
+    "A world where dreams are bought and sold",
+    "A letter to your future self",
+    "The consequences of a global ban on technology",
+    "A story about the survival of the last human on earth",
+    "A ghost trying to communicate with the living world",
+    "A story that begins with 'I woke up and found myself in a different world'",
+    "An alternate ending to a famous novel or movie",
+    "A story in which a mythical creature is real",
+    "The story of a lie that spiraled out of control",
+    "A world where children rule over adults",
+    "An unexpected discovery during a historical excavation",
+    "A story based on your favorite song",
+    "A dystopian world where happiness is illegal",
+    "A world where people are forced to live underwater",
+    "A story inspired by your favorite piece of art",
+    "A world where emotions are visible",
+    "A fictionalized account of a historical event"
+]
 
 
 def key_press(event):
@@ -90,29 +118,35 @@ instructions = Label(text="Click to start a 5 minute challenge\n"
                      font=SMALL_FONT, pady=4)
 instructions.grid(row=1, column=1, columnspan=3)
 
+prompt_label = Label(text="Prompt:", anchor="e", font=SMALL_FONT, pady=1)
+prompt_label.grid(row=2, column=1, columnspan=1)
+
+prompt = Label(text=choice(writing_prompts), font=SMALL_FONT, pady=1, anchor="w")
+prompt.grid(row=2, column=2, columnspan=3)
+
 typing_window = Text(window, wrap=WORD, width=40, height=5, font=("", 14), padx=5, pady=5)
 typing_window.insert(END, "Type here, but be warned!")
 typing_window.config(state=DISABLED, bd=2, relief="solid")
-typing_window.grid(row=2, column=1, columnspan=3)
+typing_window.grid(row=3, column=1, columnspan=3)
 
 start_button = Button(text="Start", command=start_timer)
-start_button.grid(row=4, column=1, columnspan=3)
+start_button.grid(row=5, column=1, columnspan=3)
 
 success_label = Label(text="You Did it!", fg="green", font=BIG_FONT)
-success_label.grid(row=5, column=2)
+success_label.grid(row=6, column=2)
 success_label.grid_remove()
 
 segment_timer_label = Label(text="Delete Timer", font=SMALL_FONT)
-segment_timer_label.grid(row=5, column=1, columnspan=1)
+segment_timer_label.grid(row=6, column=1, columnspan=1)
 
 segment_timer = Label(text="00", font=("Arial", 14))
-segment_timer.grid(row=6, column=1, columnspan=1)
+segment_timer.grid(row=7, column=1, columnspan=1)
 
 master_timer_label = Label(text="Challenge Timer", font=SMALL_FONT)
-master_timer_label.grid(row=5, column=3)
+master_timer_label.grid(row=6, column=3)
 
 master_timer = Label(text="00", font=("Arial", 14))
-master_timer.grid(row=6, column=3, columnspan=1)
+master_timer.grid(row=7, column=3, columnspan=1)
 
 window.bind('<KeyPress>', key_press)
 window.bind('<KeyRelease>', func=key_released)
